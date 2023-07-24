@@ -1,0 +1,65 @@
+﻿@model IEnumerable<CashRegisterGoods.AllGoods.Goods>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>List of all goods</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                PLU
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Quantity
+            </th>
+            <th>
+                Net Price
+            </th>
+            <th>
+                Selling Price Per Unit
+            </th>
+            <th>
+                Barcode
+            </th>
+            <th></th>
+        </tr>
+
+<tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PLU)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NetPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SellingPricePerUnit)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Barcode)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.PLU">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.PLU">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.PLU">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

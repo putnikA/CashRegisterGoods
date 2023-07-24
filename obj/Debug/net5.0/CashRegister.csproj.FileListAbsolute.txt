@@ -1,0 +1,7 @@
+C:\Users\Kuca\source\repos\GoodsWebApp\obj\Debug\net5.0\CashRegister.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Kuca\source\repos\GoodsWebApp\obj\Debug\net5.0\CashRegister.AssemblyInfoInputs.cache
+C:\Users\Kuca\source\repos\GoodsWebApp\obj\Debug\net5.0\CashRegister.AssemblyInfo.cs
+C:\Users\Kuca\source\repos\GoodsWebApp\obj\Debug\net5.0\CashRegister.csproj.CoreCompileInputs.cache
+C:\Users\Kuca\source\repos\GoodsWebApp\obj\Debug\net5.0\CashRegister.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Kuca\source\repos\GoodsWebApp\obj\Debug\net5.0\CashRegister.RazorAssemblyInfo.cache
+C:\Users\Kuca\source\repos\GoodsWebApp\obj\Debug\net5.0\CashRegister.RazorAssemblyInfo.cs
