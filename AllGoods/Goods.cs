@@ -12,6 +12,8 @@ namespace CashRegisterGoods.AllGoods
         private string _name;
         private decimal? _quantity;
         private decimal _netPrice;
+        private string _pdv;
+        private string _margin;
         private decimal _sellingPricePerUnit;
         private long _barcode;
 
@@ -68,6 +70,17 @@ namespace CashRegisterGoods.AllGoods
             }
         }
 
+        public string PDV
+        {
+            get { return _pdv; }
+            set { _pdv = value;}
+        }
+        public string Margin
+        {
+            get { return _margin; }
+            set { _margin = value; }
+        }
+
         public decimal SellingPricePerUnit
         {
             get { return _sellingPricePerUnit; }
@@ -93,5 +106,16 @@ namespace CashRegisterGoods.AllGoods
                 _barcode = value;
             }
         }
+       /* public decimal CalculateSellingPricePerUnit()
+        {
+            SellingPricePerUnit = NetPrice * (1 + ParsePDVPercentage(PDV));
+            return SellingPricePerUnit;
+        }
+
+        private decimal ParsePDVPercentage(string pdv)
+        {
+            // Remove the percentage sign and parse the value as a decimal
+            return decimal.Parse(pdv.TrimEnd('%')) / 100;
+        }*/
     }
 }

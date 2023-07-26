@@ -25,6 +25,12 @@
                 Net Price
             </th>
             <th>
+                PDV
+            </th>
+            <th>
+                Margin
+            </th>
+            <th>
                 Selling Price Per Unit
             </th>
             <th>
@@ -35,31 +41,37 @@
 
 <tbody>
 @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.PLU)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Quantity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NetPrice)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SellingPricePerUnit)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Barcode)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.PLU">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.PLU">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.PLU">Delete</a>
-            </td>
-        </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.PLU)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td style="text-align: center;">
+            @Html.DisplayFor(modelItem => item.Quantity)
+        </td>
+        <td style="text-align: center;">
+            @Html.DisplayFor(modelItem => item.NetPrice)
+        </td>
+        <td style="text-align: center;">
+            @Html.DisplayFor(modelItem => item.PDV)
+        </td>
+        <td style="text-align: center;">
+            @Html.DisplayFor(modelItem => item.Margin)%
+        </td>
+        <td style="text-align: center;">
+            @Html.DisplayFor(modelItem => item.SellingPricePerUnit)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Barcode)
+        </td>
+        <td>
+            <a asp-action="Edit" asp-route-id="@item.PLU">Edit</a> |
+            <a asp-action="Details" asp-route-id="@item.PLU">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.PLU">Delete</a>
+        </td>
+    </tr>
 }
     </tbody>
 </table>

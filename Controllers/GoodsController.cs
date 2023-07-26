@@ -1,8 +1,10 @@
 ﻿using CashRegisterGoods.AllGoods;
 using CashRegisterGoods.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -44,6 +46,14 @@ namespace CashRegisterGoods.Controllers
         // GET: Goods/Create
         public IActionResult Create()
         {
+            var pdvOptions = new List<SelectListItem>
+    {
+        new SelectListItem { Text = "10%", Value = "10%" },
+        new SelectListItem { Text = "20%", Value = "20%" }
+    };
+            ViewBag.PDVOptions = pdvOptions;
+            ViewBag.PDV = "10%"; // Set the default value of PDV to "10%"
+
             return View();
         }
 
@@ -52,30 +62,25 @@ namespace CashRegisterGoods.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PLU,Name,Quantity,NetPrice,SellingPricePerUnit,Barcode")] Goods goods)
+        public async Task<IActionResult> Create([Bind("PLU,Name,Quantity,NetPrice,PDV,Margin,SellingPricePerUnit,Barcode")] Goods goods)
         {
-            Console.WriteLine($"Quantity value on form submission: {goods.Quantity}");
-
             if (ModelState.IsValid)
             {
                 _context.Add(goods);
-                Console.WriteLine($"Entity state before SaveChangesAsync: {_context.Entry(goods).State}");
                 await _context.SaveChangesAsync();
-                Console.WriteLine($"Entity state after SaveChangesAsync: {_context.Entry(goods).State}");
-
+                return RedirectToAction(nameof(Index));
             }
+
+            // If the model state is not valid, repopulate the PDV options
+            var pdvOptions = new List<SelectListItem>
+    {
+        new SelectListItem { Text = "10%", Value = "10%" },
+        new SelectListItem { Text = "20%", Value = "20%" }
+    };
+            ViewBag.PDVOptions = pdvOptions;
+
             return View(goods);
         }
-        /*public async Task<IActionResult> Create([Bind("PLU,Name,Quantity,NetPrice,SellingPricePerUnit,Barcode")] Goods goods)
-         {
-             if (ModelState.IsValid)
-             {
-                 _context.Add(goods);
-                 await _context.SaveChangesAsync();
-                 return RedirectToAction(nameof(Index));
-             }
-             return View(goods);
-         }*/
 
 
 
@@ -92,15 +97,25 @@ namespace CashRegisterGoods.Controllers
             {
                 return NotFound();
             }
+
+            // Set the options for the PDV select element
+            var pdvOptions = new List<SelectListItem>
+    {
+        new SelectListItem { Text = "10%", Value = "10%" },
+        new SelectListItem { Text = "20%", Value = "20%" }
+    };
+            ViewBag.PDVOptions = pdvOptions;
+
             return View(goods);
         }
 
-        // POST: Goods/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
+    // POST: Goods/Edit/5
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PLU,Name,Quantity,NetPrice,SellingPricePerUnit,Barcode")] Goods goods)
+        public async Task<IActionResult> Edit(int id, [Bind("PLU,Name,Quantity,NetPrice,PDV,Margin,SellingPricePerUnit,Barcode")] Goods goods)
         {
             if (id != goods.PLU)
             {
@@ -127,6 +142,15 @@ namespace CashRegisterGoods.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
+            // If the model state is not valid, repopulate the PDV options
+            var pdvOptions = new List<SelectListItem>
+    {
+        new SelectListItem { Text = "10%", Value = "10%" },
+        new SelectListItem { Text = "20%", Value = "20%" }
+    };
+            ViewBag.PDVOptions = pdvOptions;
+
             return View(goods);
         }
 

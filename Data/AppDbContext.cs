@@ -18,6 +18,14 @@ namespace CashRegisterGoods.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Goods>()
+                .Property(g => g.PDV)
+                .HasColumnType("nvarchar(3)");
+
+            modelBuilder.Entity<Goods>()
+                .Property(g => g.Margin)
+                .HasColumnType("nvarchar(3)");
+
+            modelBuilder.Entity<Goods>()
                 .Property(g => g.NetPrice)
                 .HasColumnType("decimal(18, 2)");
 
