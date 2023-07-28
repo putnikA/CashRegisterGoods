@@ -3,17 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using CashRegisterGoods.AllGoods;
+using CashRegisterGoods.Models;
 
 namespace CashRegisterGoods.Data
 {
     public class AppDbContext : DbContext 
     {
         public DbSet<Goods> Goods { get; set; }
-
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
-        {
-        }
+        public DbSet<Users> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -36,6 +33,15 @@ namespace CashRegisterGoods.Data
             modelBuilder.Entity<Goods>()
                 .Property(g => g.SellingPricePerUnit)
                 .HasColumnType("decimal(18, 2)");
+
+            // Configuration for Users entity
+            modelBuilder.Entity<Users>()
+                .Property(u => u.Id)
+                .ValueGeneratedOnAdd();
+        }
+
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+        {
         }
     }
 }

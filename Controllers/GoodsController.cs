@@ -1,4 +1,4 @@
-﻿using CashRegisterGoods.AllGoods;
+﻿using CashRegisterGoods.Models;
 using CashRegisterGoods.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -46,14 +46,6 @@ namespace CashRegisterGoods.Controllers
         // GET: Goods/Create
         public IActionResult Create()
         {
-            var pdvOptions = new List<SelectListItem>
-    {
-        new SelectListItem { Text = "10%", Value = "10%" },
-        new SelectListItem { Text = "20%", Value = "20%" }
-    };
-            ViewBag.PDVOptions = pdvOptions;
-            ViewBag.PDV = "10%"; // Set the default value of PDV to "10%"
-
             return View();
         }
 
@@ -66,19 +58,24 @@ namespace CashRegisterGoods.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Check if a record with the same PLU value already exists in the database
+                if (_context.Goods.Any(g => g.PLU == goods.PLU))
+                {
+                    ModelState.AddModelError("PLU", "A record with the same PLU already exists.");
+                    return View(goods);
+                }
+
+                // Check if a record with the same Barcode value already exists in the database
+                if (_context.Goods.Any(g => g.Barcode == goods.Barcode))
+                {
+                    ModelState.AddModelError("Barcode", "A record with the same Barcode already exists.");
+                    return View(goods);
+                }
+
                 _context.Add(goods);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-
-            // If the model state is not valid, repopulate the PDV options
-            var pdvOptions = new List<SelectListItem>
-    {
-        new SelectListItem { Text = "10%", Value = "10%" },
-        new SelectListItem { Text = "20%", Value = "20%" }
-    };
-            ViewBag.PDVOptions = pdvOptions;
-
             return View(goods);
         }
 
@@ -100,10 +97,10 @@ namespace CashRegisterGoods.Controllers
 
             // Set the options for the PDV select element
             var pdvOptions = new List<SelectListItem>
-    {
-        new SelectListItem { Text = "10%", Value = "10%" },
-        new SelectListItem { Text = "20%", Value = "20%" }
-    };
+            {
+               new SelectListItem { Text = "10%", Value = "10%" },
+               new SelectListItem { Text = "20%", Value = "20%" }
+            };
             ViewBag.PDVOptions = pdvOptions;
 
             return View(goods);
@@ -124,6 +121,25 @@ namespace CashRegisterGoods.Controllers
 
             if (ModelState.IsValid)
             {
+                // Check if the PLU value has changed
+                var existingGoods = await _context.Goods.FindAsync(id);
+                if (existingGoods.PLU != goods.PLU)
+                {
+                    // Check if a record with the same PLU value already exists in the database
+                    if (_context.Goods.Any(g => g.PLU == goods.PLU))
+                    {
+                        ModelState.AddModelError("PLU", "A record with the same PLU already exists.");
+                        return View(goods);
+                    }
+                }
+
+                // Check if a record with the same Barcode value already exists in the database
+                if (_context.Goods.Any(g => g.Barcode == goods.Barcode && g.PLU != id))
+                {
+                    ModelState.AddModelError("Barcode", "A record with the same Barcode already exists.");
+                    return View(goods);
+                }
+
                 try
                 {
                     _context.Update(goods);
@@ -145,11 +161,11 @@ namespace CashRegisterGoods.Controllers
 
             // If the model state is not valid, repopulate the PDV options
             var pdvOptions = new List<SelectListItem>
-    {
-        new SelectListItem { Text = "10%", Value = "10%" },
-        new SelectListItem { Text = "20%", Value = "20%" }
-    };
-            ViewBag.PDVOptions = pdvOptions;
+            {
+               new SelectListItem { Text = "10%", Value = "10%" },
+               new SelectListItem { Text = "20%", Value = "20%" }
+             };
+                 ViewBag.PDVOptions = pdvOptions;
 
             return View(goods);
         }

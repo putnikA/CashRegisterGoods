@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CashRegisterGoods.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace CashRegisterGoods
 {
@@ -28,6 +29,13 @@ namespace CashRegisterGoods
             // Configure the database connection
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie(options =>
+            {
+            options.LoginPath = "/Users/Login"; // The URL to redirect to for login
+            options.LogoutPath = "/Users/Logout"; // The URL to redirect to for logout
+             });
 
 
             services.AddControllersWithViews();
@@ -51,13 +59,14 @@ namespace CashRegisterGoods
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Goods}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
